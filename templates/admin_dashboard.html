@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container" style="width: 95%; max-width: 1400px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>Admin Dashboard</h1>
+        <a class="button" href="/admin/logout" style="background: #333;">Logout</a>
+    </div>
+    
+    <div style="background: #f1f2f6; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" style="display: flex; gap: 10px; align-items: center; margin: 0;">
+            <input type="text" name="search" placeholder="Search Name, Location, Mobile..." value="{{ request.args.get('search', '') }}" style="margin: 0; flex: 1;">
+            <button type="submit" style="padding: 12px 25px; margin: 0;">Search</button>
+            {% if request.args.get('search') %}
+                <a href="{{ url_for('admin_dashboard') }}" class="button" style="background: #999; margin: 0;">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>User Details</th>
+                <th>Location</th> <th>Issue Description</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if tickets %}
+                {% for t in tickets %}
+                <tr>
+                    <td>#{{ t.id }}</td>
+                    <td style="font-size: 0.85rem; color: #555;">{{ t.created_at.strftime('%Y-%m-%d') }}<br>{{ t.created_at.strftime('%I:%M %p') }}</td>
+                    <td>
+                        <b>{{ t.name }}</b><br>
+                        <span style="font-size: 0.85rem; color: #666;">{{ t.email }}</span><br>
+                        <span style="font-size: 0.85rem; color: #1e90ff;">{{ t.mobile }}</span>
+                    </td>
+                    
+                    <td style="font-weight: 500; color: #2c3e50;">{{ t.location }}</td>
+                    
+                    <td>{{ t.issue }}</td>
+                    
+                    <td>
+                        <span class="badge {% if t.priority == 'High' %}badge-red{% elif t.priority == 'Medium' %}badge-orange{% else %}badge-green{% endif %}">
+                            {{ t.priority }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge {% if t.status == 'Open' %}badge-green{% elif t.status == 'Closed' %}badge-gray{% else %}badge-blue{% endif %}">
+                            {{ t.status }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <form method="POST" style="display: flex; gap: 5px;">
+                            <input type="hidden" name="ticket_id" value="{{ t.id }}">
+                            <select name="status" style="padding: 5px; margin: 0; width: auto;">
+                                <option {% if t.status=="Open" %}selected{% endif %}>Open</option>
+                                <option {% if t.status=="In Progress" %}selected{% endif %}>In Progress</option>
+                                <option {% if t.status=="Closed" %}selected{% endif %}>Closed</option>
+                            </select>
+                            <button type="submit" style="padding: 5px 10px; font-size: 0.8rem;">Save</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 20px;">No tickets found matching your search.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

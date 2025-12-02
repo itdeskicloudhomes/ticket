@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container" style="max-width: 400px; text-align: center;">
+    <h1>Staff Login</h1>
+    <p style="color: #666; margin-bottom: 20px;">Please login to access the Help Desk</p>
+    
+    {% if error %}
+        <p style="color: red; background: #ffeaea; padding: 10px; border-radius: 5px;">{{ error }}</p>
+    {% endif %}
+    
+    <form method="POST">
+        <label style="text-align: left; display: block;">Username</label>
+        <input type="text" name="username" placeholder="Enter username" required>
+        
+        <label style="text-align: left; display: block;">Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+        
+        <button type="submit" style="width: 100%; margin-top: 15px;">Login to System</button>
+    </form>
+</div>
+</body>
+</html>

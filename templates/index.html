@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ company }} - IT Ticket System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>{{ company }} Help Desk</h1>
+        <a href="{{ url_for('site_logout') }}" style="color: #e74c3c; text-decoration: none; font-weight: bold;">Logout</a>
+    </div>
+
+    <div class="btn-container">
+        <a class="button" href="{{ url_for('admin_login') }}">Admin Dashboard</a>
+        <a class="button" href="{{ url_for('new_ticket') }}" style="background: linear-gradient(to right, #11998e, #38ef7d);">+ Submit New Ticket</a>
+    </div>
+
+    <hr>
+    <div style="text-align: center;">
+        <p>Check your ticket status</p>
+        <form onsubmit="redirectToTickets(event)">
+            <input type="email" id="email" placeholder="Enter your email address..." required style="width: 60%; display: inline-block;">
+            <button type="submit">Check Status</button>
+        </form>
+    </div>
+</div>
+<script>
+function redirectToTickets(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    window.location.href = '/tickets/' + encodeURIComponent(email);
+}
+</script>
+</body>
+</html>

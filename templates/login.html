@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container" style="max-width: 400px; text-align: center;">
+    <h1>Admin Login</h1>
+    {% if error %}
+        <p style="color: red; background: #ffeaea; padding: 10px; border-radius: 5px;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit" style="width: 100%; margin-top: 15px;">Login</button>
+    </form>
+    <p style="margin-top: 20px;"><a href="/" style="color: #888; text-decoration: none;">Cancel</a></p>
+</div>
+</body>
+</html>

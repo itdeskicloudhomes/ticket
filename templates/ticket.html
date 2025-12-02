@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tickets</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Tickets for <span style="color: #667eea;">{{ email }}</span></h1>
+    
+    {% if tickets %}
+        {% for t in tickets %}
+        <div class="ticket-card">
+            <div class="meta-info">
+                <strong>Ticket #{{ t.id }}</strong> &nbsp;|&nbsp; 
+                {{ t.created_at.strftime('%d %b %Y, %I:%M %p') }}
+            </div>
+            
+            <div style="background: #f9f9f9; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.9rem;">
+                <strong>Location:</strong> {{ t.location }} <br>
+                <strong>Mobile:</strong> {{ t.mobile }}
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <span class="badge {% if t.priority == 'High' %}badge-red{% elif t.priority == 'Medium' %}badge-orange{% else %}badge-green{% endif %}">
+                    {{ t.priority }} Priority
+                </span>
+                <span class="badge {% if t.status == 'Open' %}badge-green{% elif t.status == 'Closed' %}badge-gray{% else %}badge-blue{% endif %}">
+                    {{ t.status }}
+                </span>
+            </div>
+            
+            <h3 style="margin: 0 0 5px 0; color: #444;">Issue Description:</h3>
+            <p style="color: #555; line-height: 1.6;">{{ t.issue }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 40px;">
+            <h3>No tickets found.</h3>
+            <p>You haven't submitted any support requests yet.</p>
+            <a class="button" href="/new">Submit a Ticket</a>
+        </div>
+    {% endif %}
+    
+    <div style="text-align:center; margin-top: 30px;">
+        <a href="/" style="color: #667eea; text-decoration: none;">&larr; Back to Home</a>
+    </div>
+</div>
+</body>
+</html>
